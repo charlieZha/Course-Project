@@ -9,21 +9,15 @@ train_x<-read.table("UCI HAR Dataset/train/x_train.txt")
 train_y<-read.table("UCI HAR Dataset/train/y_train.txt")
 train_subject<-read.table("UCI HAR Dataset/train/subject_train.txt")
 
-
-##Prepear column names
-labels<-read.table("UCI HAR Dataset/activity_labels.txt")
-features<-read.table("UCI HAR Dataset/features.txt")
-cnames<-features[,2]
-
-##Assign relavent names as headers
-names(test_x)<-c(cnames)
-names(train_x)<-c(cnames)
-names(test_subject)<-"Subject"
-names(train_subject)<-"Subject"
-names(test_y)<-"Activity"
-names(train_y)<-"Activity"
-
-##Merge the trainning and test data as one data set
-test_data<-cbind(test_x,test_y,test_subject)
-train_data<-cbind(train_x,train_y,train_subject)
+##Merge all data into one
+test_data<-cbind(cbind(test_x,test_y),test_subject)
+train_data<-cbind(cbind(train_x,train_y),train_subject)
 full_data<-rbind(test_data,train_data)
+
+data_feature<-read.table("UCI HAR Dataset/features.txt")
+mean<-grep("-mean()",data_feature[,2])
+std<-grep("-std()",data_feature[,2])
+
+data_mean<-full_data[,mean]
+data_std<-full_data[,std]
+##full_data$Activity<-gsub2(1:6,labels,full_data$Activity)
