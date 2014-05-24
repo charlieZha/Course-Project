@@ -21,7 +21,6 @@ std<-grep("-std()",data_feature[,2])
 data_mean<-full_data[,mean]
 data_std<-full_data[,std]
 
-##full_data$Activity<-gsub2(1:6,labels,full_data$Activity)
 
 ##Use descriptive activity names to name the activities in the data set
 
