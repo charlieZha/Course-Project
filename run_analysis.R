@@ -27,6 +27,12 @@ data_std<-full_data[,std]
 
 activ<-read.table("UCI HAR Dataset/activity_labels.txt")
 activ[,2]=gsub("-","",tolower(as.character(activ[,2])))
-T<-cbind(t,train_subject)
+T<-cbind(T,train_subject)
 T[,1]=activ[T[,1],2]
-header(T)<-"Activity"
+names(T)<-"Activity"
+
+##Appropriately labels the data set with descriptive activity names
+fea<-read.table("UCI HAR Dataset/features.txt")
+colnames(full_data)<-fea[,2]
+
+write.table(full_data,"Tidy_Data.txt")
