@@ -20,4 +20,13 @@ std<-grep("-std()",data_feature[,2])
 
 data_mean<-full_data[,mean]
 data_std<-full_data[,std]
+
 ##full_data$Activity<-gsub2(1:6,labels,full_data$Activity)
+
+##Use descriptive activity names to name the activities in the data set
+
+activ<-read.table("UCI HAR Dataset/activity_labels.txt")
+activ[,2]=gsub("-","",tolower(as.character(activ[,2])))
+T<-cbind(t,train_subject)
+T[,1]=activ[T[,1],2]
+header(T)<-"Activity"
