@@ -1,0 +1,24 @@
+Variables Descripe:
+===================
+-test_x: contain the data from x_test.txt
+-test_y:contain the data from y_test.txt
+-test_subjec: contain the data from test/subject.txt
+-train_x: contain data from x_train.txt
+-train_y: contain data from y_train.txt
+-train_subject: contain data from train/subject_train.txt
+-test_data: contain merged data from x_text.txt and y_test.txt
+-train_data: contain merged data from x_train.txt and y_train.txt
+-full_data: contain fully merged data from test_data and train_data
+-data_feature: contain data from features.txt
+-mean: grab the id of mean data
+-std: grab the id of standard data
+-data_mean: contain the mean data from the fully merged data set
+-data_std: contain the standard data form the fully merged data set
+-activ: contain data from activity_labels.txt
+-T:it's a temp varialbe use to assist assign activity labels to the fully merged data set
+
+Study Design:
+================
+The whole process is merge test data and train data seperatly and do a second merge to make a fully merged data set
+it's make the code more readable and easy to understand rather than merge them in one step
+
