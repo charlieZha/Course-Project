@@ -31,7 +31,7 @@ T[,1]=activ[T[,1],2]
 names(T)<-"Activity"
 
 ##Appropriately labels the data set with descriptive activity names
-fea<-read.table("UCI HAR Dataset/features.txt")
-colnames(full_data)<-fea[,2]
+
+colnames(full_data)<-data_feature[,2]
 
 write.table(full_data,"Tidy_Data.txt")
