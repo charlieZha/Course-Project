@@ -1,0 +1,80 @@
+RepData_PeerAssessment1
+========================================================
+
+##Loading and preprocessing the data
+```{r}
+data<-read.csv("activity.csv")
+```
+
+##The total number of steps taken per day
+```{r}
+total_steps<-aggregate(steps~date, data=data, na.rm=T)
+hist(total_steps$steps)
+```
+
+##The mean and median total number of steps
+```{r}
+mean_steps<-mean(total_steps$steps)
+median_steps<-median(total_steps$steps)
+```
+
+
+##The average daily activity pattern
+```{r}
+aver_pattern<-aggregate(steps~interval, data=data, FUN=mean)
+plot(aver_pattern, type="l",main="Average Daily Activity Pattern", xlab="5 Mins Intervals Daily", ylab="Average Steps All Days")
+```
+
+##Imputing missing values
+###Total number of missing values
+```{r}
+missing_total<-sum(is.na(data))
+```
+
+###Create a vector store steps with NAs
+```{r}
+imputed_steps<-numeric()
+for(i in 1:nrow(data)){
+x<-data[i,]
+if (is.na(x$steps)){
+y<-sbuset(aver_pattern,interval==x$interval)$steps
+}
+else
+{
+y<-x$steps
+}
+imputed_steps<-c(imputed_steps,y)
+}
+```
+
+###Create a new dataset equal to the original dataset with the missing data
+```{r}
+imputed_data<-data
+imputed_data$steps<-imputed_steps
+imputed_steps_perday<-aggregate(steps~date, data=imputed_data, FUN=sum)
+```
+
+```{r}
+hist(imputed_steps_perday$steps, breaks=nrow(imputed_steps_perday),main="Total Steps Per Day with Imputed",xlan="Steps perday",col="red")
+```
+
+###Mean median total number of steps per day
+```{r}
+mean_imputed_steps<-mean(imputed_steps_perday$steps)
+median_imputed_steps<-median(imputed_steps_perday$steps)
+```
+
+##Differences in activity patterns between weekdays and weekends
+```{r}
+imputed_data$date<-as.date(imputed_data$date)
+weekend<-c("Sat","Sun")
+imputed_data$daytype<-as.factor(sapply(imputed_data$date,function(x) ifelse(weekdays(x) %in% weekend,"weekend","weekday")))
+```
+
+```{r}
+require(plyr)
+average_steps<-ddply(imputed_Data,.(interval,daytype), summarize,  steps=mean(steps))
+
+require(lattice)
+xyplot(steps~interval | daytype, data=average_steps, layout=c(1,2),type="l",xlanb="5 mins intervals over day", ylab="Number of steps", main="Activity Patterns on weekdays and weekends")
+
